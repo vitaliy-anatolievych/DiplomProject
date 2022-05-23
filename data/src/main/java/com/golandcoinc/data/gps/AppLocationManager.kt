@@ -32,7 +32,7 @@ object AppLocationManager {
             }
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2L, 1F, this)
             locationManager.requestLocationUpdates(
-                KalmanLocationManager.UseProvider.GPS,
+                KalmanLocationManager.UseProvider.GPS_AND_NET,
                 FILTER_TIME,
                 GPS_TIME,
                 NET_TIME,

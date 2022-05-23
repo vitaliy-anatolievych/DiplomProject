@@ -67,6 +67,7 @@ class TripJournalImpl(
             _currentTripList = db.getTripJournal()
             if (currentSpeed > 7) {
                 if (currentTripList.isNotEmpty()) {
+
                     val tripData = TripData(
                         time = tripDto.time,
                         speed = DataUtils.meterOnSecInKmPerHour(tripDto.speed),
@@ -77,8 +78,10 @@ class TripJournalImpl(
                     tripData.distance =
                         calculateDistance(tripData.time_interval!!, tripData.average_speed!!)
 
-                    addDataToDb(tripData)
-                    Log.e("Trip", "$tripData")
+                    if(DataUtils.timeToString(tripData.time) != currentTripList[currentTripList.size - 1].time) {
+                        addDataToDb(tripData)
+                        Log.e("Trip", "$tripData  | ${DataUtils.timeToString(tripData.time)}")
+                    }
                 } else {
                     val tripData = TripData(
                         time = tripDto.time,
