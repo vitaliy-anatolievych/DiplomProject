@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">DiplomJobApplication</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_recommended_speed">60 км/год</string>
+    <string name="hint_recommended_fuel">20Л</string>
+    <string name="txt_recommended_speed">Рекомендована швидкість</string>
+    <string name="lets_go">Поїхали!</string>
+    <string name="fill_fuel">Заправитись</string>
+    <string name="stats">Статистика</string>
+    <string name="start_travel">Почати поїздку</string>
+    <string name="start_page_text">Для роботи програми при кожній заправці введіть кількість витраченого палива, якщо ви не можете отримувати такі дані, скористаєтесь наступною схемою. \n\nКожен раз заправляйтесь до повного баку і вносіть кількість фактично заправленого палива.</string>
+    <string name="helper_recommend_speed">Введіть оптимальну швидкість руху вашого транспортного засобу, на ваш погляд.</string>
+    <string name="current_speed">Поточна швидкість</string>
+    <string name="end_travel">Завершити поїздку</string>
+    <string name="speed_up">Прискоріться</string>
+    <string name="speed_normal">Оптимально</string>
+    <string name="speed_slower">Сповільніться</string>
+    <string name="v">V</string>
+    <string name="s">S</string>
+    <string name="q">Q</string>
+    <string name="delete_stats">ВИДАЛИТИ СТАТИСТИКУ</string>
+    <string name="permissions_denied">Для продовження роботи дайте дозвiл</string>
+    <string name="no_data">Нема данних</string>
+
+    <string name="error_invalid_input">Поле пусте, або невалiднi данi</string>
+    <string name="fuel_set_successful">Вы заправились на </string>
+    <string name="q100">Q100</string>
+
+    <string name="delete_stats_message">Ви дiйсно хочете видалити всю статистику?</string>
+    <string name="positive">Так</string>
+    <string name="negative">Закрити</string>
+</resources>

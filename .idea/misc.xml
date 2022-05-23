@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/drawable/border_table.xml" value="0.5305" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/drawable/circle.xml" value="0.5305" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/drawable/ic_arrow_down.xml" value="0.5305" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/drawable/ic_arrow_up.xml" value="0.5305" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/activity_main.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/fragment_main.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/fragment_stats.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/fragment_welcome.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/fragment_working.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/speed_detector.xml" value="0.5364583333333334" />
+        <entry key="..\:/Users/Adam/AndroidStudioProjects/DiplomJobApplication/app/src/main/res/layout/table_header.xml" value="0.5364583333333334" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
