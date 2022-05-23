@@ -7,6 +7,7 @@ import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.TripDataDBEntity
 import com.golandcoinc.data.dto.TripDto
 import com.golandcoinc.data.gps.AppLocationManager
+import com.golandcoinc.data.gps.lib.KalmanLocationManager
 import com.golandcoinc.data.journals.TripJournal
 import com.golandcoinc.data.utils.DataUtils
 import com.golandcoinc.data.workers.AppWorkerManager
@@ -24,8 +25,10 @@ class TripJournalImpl(
     private val currentTripList: List<TripDataDBEntity>
         get() = _currentTripList ?: throw NullPointerException("Поездка не была начата")
 
-    private val locationManager =
-        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//    private val locationManager =
+//        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    private val locationManager = KalmanLocationManager(context)
 
     var speedListener: ((Int) -> Unit)? = null
 
