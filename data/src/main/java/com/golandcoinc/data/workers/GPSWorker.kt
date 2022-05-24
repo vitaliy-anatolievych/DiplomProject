@@ -1,14 +1,10 @@
 package com.golandcoinc.data.workers
 
 import android.content.Context
-import android.util.Log
 import androidx.work.*
 import com.golandcoinc.data.dto.TripDto
 import com.golandcoinc.data.gps.AppLocationManager
-import com.golandcoinc.data.utils.DataUtils
-import kotlinx.coroutines.*
 import java.io.IOException
-import java.util.*
 
 class GPSWorker(
     context: Context,

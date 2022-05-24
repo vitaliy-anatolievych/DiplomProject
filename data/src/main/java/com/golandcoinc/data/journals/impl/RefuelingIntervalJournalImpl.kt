@@ -3,10 +3,9 @@ package com.golandcoinc.data.journals.impl
 import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.TripDataDBEntity
 import com.golandcoinc.data.journals.RefuelingIntervalJournal
-import com.golandcoinc.data.utils.DataUtils
+import com.golandcoinc.domain.utils.ConvertUtils
 import com.golandcoinc.data.utils.Mapper
 import com.golandcoinc.domain.entities.data.RefuelingIntervalData
-import kotlin.math.roundToInt
 
 class RefuelingIntervalJournalImpl(
     private val db: AppDao
@@ -35,14 +34,14 @@ class RefuelingIntervalJournalImpl(
     private fun calculateMedianSpeed(tripData: List<TripDataDBEntity>): Double {
         val listOfAverageSpeed = mutableListOf<Double>()
         tripData.forEach {
-            if (it.average_speed != null && it.average_speed != "Нет данных") {
+            if (it.average_speed != null && it.average_speed != 0.0) {
                 listOfAverageSpeed.add(it.average_speed.toDouble())
             }
         }
 
         listOfAverageSpeed.sortBy { it }
 
-        return DataUtils.calculateMedian(
+        return ConvertUtils.calculateMedian(
             mutableListOf<Double>().apply {
                 listOfAverageSpeed.map {
                     this.add(it)
@@ -56,11 +55,11 @@ class RefuelingIntervalJournalImpl(
         if (tripData.size > 1) {
             tripData.forEachIndexed { index, tripData ->
                 if (index >= 1) {
-                    resultCalculate += tripData.distance?.toDouble()!!
+                    resultCalculate += tripData.distance!!
                 }
             }
         }
 
-        return ((resultCalculate * 100).roundToInt() / 100.0)
+        return ((resultCalculate * 100) / 100.0)
     }
 }

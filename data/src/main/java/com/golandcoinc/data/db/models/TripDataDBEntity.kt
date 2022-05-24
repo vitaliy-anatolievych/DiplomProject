@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "trip_journal")
 data class TripDataDBEntity(
     @PrimaryKey
-    val time: String,
+    val time: Long,
     val speed: Double,
-    val time_interval: String? = "Нет данных",
-    val average_speed: String? = "Нет данных",
-    var distance: String? = "Нет данных"
+    val time_interval: Long?,
+    val average_speed: Double? = 0.0,
+    var distance: Double? = 0.0
 )

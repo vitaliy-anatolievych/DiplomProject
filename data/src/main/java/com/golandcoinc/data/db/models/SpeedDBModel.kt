@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class SpeedDBModel(
     @PrimaryKey
     val id: Int = 0,
-    val speed: Int
+    val speed: Float
 )

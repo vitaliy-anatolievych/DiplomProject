@@ -44,10 +44,10 @@ class AppCommandsImpl(
     }
 
     override suspend fun setSpeed(speed: Int) {
-        db.setRecommendedSpeed(SpeedDBModel(speed = speed))
+        db.setRecommendedSpeed(SpeedDBModel(speed = speed.toFloat()))
     }
 
-    override suspend fun getRecommendedSpeed(): Int? = db.getRecommendedSpeed()
+    override suspend fun getRecommendedSpeed(): Int? = db.getRecommendedSpeed()?.toInt()
 
     override suspend fun getStatsJournal(): StatsJournalModel =
         statsJournal.getStatsJournal()

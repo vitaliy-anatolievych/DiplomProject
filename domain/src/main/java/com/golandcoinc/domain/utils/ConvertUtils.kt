@@ -1,10 +1,9 @@
-package com.golandcoinc.data.utils
+package com.golandcoinc.domain.utils
 
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.ceil
 
-object DataUtils {
+object ConvertUtils {
     private val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.ENGLISH)
 
     fun timeToString(time: Long): String {
@@ -16,13 +15,11 @@ object DataUtils {
     }
 
     fun meterOnSecInKmPerHour(speed: Float): Double {
-        val calculateSpeed = (speed / 1000) * 3600
-        return ceil(calculateSpeed.toDouble())
+        return ((speed / 1000) * 3600).toDouble()
     }
 
-    fun kmPerHourImMeterOnSec(speed: Float): Double {
-        val calculateSpeed = (speed * 1000) / 3600
-        return ceil(calculateSpeed.toDouble())
+    fun kmPerHourImMeterOnSec(speed: Double): Double {
+        return (speed * 1000) / 3600
     }
 
     fun calculateMedian(list: List<Double>): Double {

@@ -1,13 +1,9 @@
 package com.golandcoinc.data.gps
 
 import android.annotation.SuppressLint
-import android.location.Location
 import android.location.LocationListener
-import android.location.LocationManager
-import android.util.Log
 import com.golandcoinc.data.dto.TripDto
 import com.golandcoinc.data.gps.lib.KalmanLocationManager
-import com.golandcoinc.data.utils.DataUtils
 
 object AppLocationManager {
     private var _locationListener: LocationListener? = null

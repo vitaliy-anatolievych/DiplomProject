@@ -9,7 +9,7 @@ import com.golandcoinc.data.db.models.RefuelingIntervalDBEntity
 import com.golandcoinc.data.db.models.SpeedDBModel
 import com.golandcoinc.data.db.models.StatsJournalDBEntity
 import com.golandcoinc.data.journals.StatsJournal
-import com.golandcoinc.data.utils.DataUtils
+import com.golandcoinc.domain.utils.ConvertUtils
 import com.golandcoinc.domain.entities.StatsJournalModel
 import com.golandcoinc.domain.entities.data.StatsData
 import kotlinx.coroutines.CoroutineScope
@@ -91,7 +91,7 @@ class StatsJournalImpl(
                     }
                 }
 
-                db.setRecommendedSpeed(speed = SpeedDBModel(speed = speed.toInt()))
+                db.setRecommendedSpeed(speed = SpeedDBModel(speed = speed.toFloat()))
             }
         }
     }
@@ -104,7 +104,7 @@ class StatsJournalImpl(
     }
 
     private fun calculateMedianSpeed(refuelingJournal: List<RefuelingIntervalDBEntity>): Double {
-        return DataUtils.calculateMedian(
+        return ConvertUtils.calculateMedian(
             mutableListOf<Double>().apply {
                 refuelingJournal.map {
                     add(it.medianSpeedForTravel)
