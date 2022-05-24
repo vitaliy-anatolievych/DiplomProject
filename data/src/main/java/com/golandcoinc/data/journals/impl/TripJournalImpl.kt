@@ -1,7 +1,6 @@
 package com.golandcoinc.data.journals.impl
 
 import android.content.Context
-import android.location.LocationManager
 import android.util.Log
 import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.TripDataDBEntity
@@ -13,7 +12,10 @@ import com.golandcoinc.data.utils.DataUtils
 import com.golandcoinc.data.workers.AppWorkerManager
 import com.golandcoinc.data.workers.GPSWorker
 import com.golandcoinc.domain.entities.data.TripData
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.ceil
 
 class TripJournalImpl(
@@ -34,10 +36,12 @@ class TripJournalImpl(
 
     override suspend fun startTrip() {
         createNewJournal()
+
         AppLocationManager.startGPSLocator(locationManager)
         AppWorkerManager.createWorkManager(context)
 
         GPSWorker.gpsWorkerTripDtoListener = { tripDto ->
+//            Log.e("TripDto", "$tripDto")
             addTripData(tripDto)
         }
     }
@@ -67,20 +71,21 @@ class TripJournalImpl(
             _currentTripList = db.getTripJournal()
             if (currentSpeed > 7) {
                 if (currentTripList.isNotEmpty()) {
+                    if (isCorrectTimeData(DataUtils.timeToString(tripDto.time), currentTripList[currentTripList.size - 1].time)) {
 
-                    val tripData = TripData(
-                        time = tripDto.time,
-                        speed = DataUtils.meterOnSecInKmPerHour(tripDto.speed),
-                        time_interval = calculateTimeInterval(currentTripList.size, tripDto),
-                        average_speed = calculateAverageSpeed(currentTripList.size, tripDto),
-                    )
+                        val tripData = TripData(
+                            time = tripDto.time,
+                            speed = DataUtils.meterOnSecInKmPerHour(tripDto.speed),
+                            time_interval = calculateTimeInterval(currentTripList.size, tripDto),
+                            average_speed = calculateAverageSpeed(currentTripList.size, tripDto),
+                        )
 
-                    tripData.distance =
-                        calculateDistance(tripData.time_interval!!, tripData.average_speed!!)
+                        tripData.distance =
+                            calculateDistance(tripData.time_interval!!, tripData.average_speed!!)
 
-                    if(DataUtils.timeToString(tripData.time) != currentTripList[currentTripList.size - 1].time) {
+
                         addDataToDb(tripData)
-                        Log.e("Trip", "$tripData  | ${DataUtils.timeToString(tripData.time)}")
+//                        Log.e("Trip", "$tripData  | ${DataUtils.timeToString(tripData.time)}")
                     }
                 } else {
                     val tripData = TripData(
@@ -89,11 +94,15 @@ class TripJournalImpl(
                     )
 
                     addDataToDb(tripData)
-                    Log.e("Trip", "$tripData")
+//                    Log.e("Trip", "$tripData")
                 }
             }
         }
         speedListener?.invoke(currentSpeed.toInt())
+    }
+
+    private fun isCorrectTimeData(currentTime: String, previousTime: String): Boolean {
+        return currentTime.length == previousTime.length && (DataUtils.timeToLong(currentTime) - DataUtils.timeToLong(previousTime)) >= 1000
     }
 
     private fun addDataToDb(tripData: TripData) {
@@ -109,17 +118,18 @@ class TripJournalImpl(
     }
 
     private fun calculateTimeInterval(index: Int, tripDto: TripDto): String {
-        val currentTime = tripDto.time
+        val currentTime = DataUtils.timeToString(tripDto.time)
         val previousTime = currentTripList[index - 1].time
 
-        val deltaTime = currentTime - DataUtils.timeToLong(previousTime)
+        Log.e("TIME", "$currentTime | $previousTime ||    ${DataUtils.timeToLong(currentTime)}  | ${DataUtils.timeToLong(previousTime)}")
+        val deltaTime = DataUtils.timeToLong(currentTime) - DataUtils.timeToLong(previousTime)
 
         return DataUtils.timeToString(deltaTime)
     }
 
     private fun calculateAverageSpeed(index: Int, tripDto: TripDto): String {
         val currentSpeed = DataUtils.meterOnSecInKmPerHour(tripDto.speed)
-        val previousSpeed = currentTripList[index -1].speed
+        val previousSpeed = currentTripList[index - 1].speed
 
         val deltaSpeed = (currentSpeed + previousSpeed) / 2
         return ceil(deltaSpeed).toString()
