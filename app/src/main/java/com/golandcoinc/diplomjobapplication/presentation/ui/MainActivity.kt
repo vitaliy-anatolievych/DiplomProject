@@ -11,6 +11,9 @@ import com.golandcoinc.diplomjobapplication.R
 import com.golandcoinc.diplomjobapplication.databinding.ActivityMainBinding
 import com.golandcoinc.diplomjobapplication.utils.NavigateUtil
 import com.golandcoinc.diplomjobapplication.viewmodels.MainViewModel
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.GooglePlayServicesUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
-
         checkPermissions()
     }
 
@@ -33,7 +35,27 @@ class MainActivity : AppCompatActivity() {
         else moveTaskToBack(true)
     }
 
+
+    private fun checkGoogleServices(): Boolean {
+        val apiAvailability = GoogleApiAvailability.getInstance()
+
+        val checkGooglePlayServices =
+            apiAvailability.isGooglePlayServicesAvailable(this)
+
+        if (checkGooglePlayServices != ConnectionResult.SUCCESS) {
+
+            Toast.makeText(this, getString(R.string.not_enabled_google_services), Toast.LENGTH_SHORT).show()
+            finish()
+
+            return false
+        }
+
+        return true
+    }
+
     private fun checkPermissions() {
+        if (!checkGoogleServices()) return
+
         val permissionGranted =
             ActivityCompat.checkSelfPermission(
                 this,
@@ -43,10 +65,10 @@ class MainActivity : AppCompatActivity() {
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+//                    && ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//            ) == PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.INTERNET
@@ -63,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 arrayOf(
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+//                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                     Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_NETWORK_STATE,
                 ), 1

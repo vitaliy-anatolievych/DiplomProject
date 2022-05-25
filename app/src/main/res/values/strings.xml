@@ -29,4 +29,5 @@
     <string name="delete_stats_message">Ви дiйсно хочете видалити всю статистику?</string>
     <string name="positive">Так</string>
     <string name="negative">Закрити</string>
+    <string name="not_enabled_google_services">Не становленi сервiси Google</string>
 </resources>
