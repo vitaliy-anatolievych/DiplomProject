@@ -18,12 +18,14 @@ class WorkingFragment : Fragment() {
         get() = _binding ?: throw NullPointerException("FragmentWorkingBinding is null")
 
     private val mainViewModel: MainViewModel by viewModel()
+    private var powerManager: AppPowerManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWorkingBinding.inflate(layoutInflater, container, false)
+        powerManager = AppPowerManager(inflater.context)
         return binding.root
     }
 
@@ -31,6 +33,7 @@ class WorkingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.listenSpeed()
         mainViewModel.getRecommendedSpeed()
+        powerManager?.stayWake()
 
         mainViewModel.recommendedSpeed.observe(viewLifecycleOwner) {
             binding.viewSpeedDetector.setSpeed(it)
@@ -50,17 +53,16 @@ class WorkingFragment : Fragment() {
             }
         }
 
-        val powerManager = AppPowerManager(requireContext())
+
 
         mainViewModel.currentSpeed.observe(viewLifecycleOwner) {
             mainViewModel.listenSpeedStatus(it)
             binding.tvCurrentSpeed.text = it.toString()
-            powerManager.stayWake()
         }
 
         binding.btnFinishTrip.setOnClickListener {
             mainViewModel.stopTrip()
-            powerManager.releaseWake()
+            powerManager?.releaseWake()
             NavigateUtil.navigateTo(parentFragmentManager, MainFragment.newInstance())
         }
     }

@@ -6,7 +6,6 @@ import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.TripDataDBEntity
 import com.golandcoinc.data.dto.TripDto
 import com.golandcoinc.data.gps.google.GoogleLocation
-import com.golandcoinc.data.gps.lib.KalmanLocationManager
 import com.golandcoinc.data.journals.TripJournal
 import com.golandcoinc.domain.entities.data.TripData
 import com.golandcoinc.domain.utils.ConvertUtils
@@ -24,10 +23,6 @@ class TripJournalImpl(
     private val currentTripList: List<TripDataDBEntity>
         get() = _currentTripList ?: throw NullPointerException("Поездка не была начата")
 
-//    private val locationManager =
-//        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-    private val locationManager = KalmanLocationManager(context)
 
     var speedListener: ((Int) -> Unit)? = null
 
@@ -39,20 +34,9 @@ class TripJournalImpl(
             Log.e("Trip", "${tripDto.time} | ${tripDto.speed}")
             addTripData(tripDto)
         }
-
-//        AppLocationManager.startGPSLocator(locationManager)
-//        AppWorkerManager.createWorkManager(context)
-//
-//        GPSWorker.gpsWorkerTripDtoListener = { tripDto ->
-////            Log.e("TripDto", "$tripDto")
-//            addTripData(tripDto)
-//        }
     }
 
-
     override suspend fun stopTrip() {
-//        AppLocationManager.stopGPSLocator(locationManager)
-//        AppWorkerManager.stopAllWork()
         GoogleLocation.stopLocationUpdates(context)
     }
 
@@ -76,7 +60,6 @@ class TripJournalImpl(
             _currentTripList = db.getTripJournal()
             if (currentSpeed > 7.0) {
                 if (currentTripList.isNotEmpty()) {
-//                    if (isCorrectTimeData(tripDto.time, currentTripList[currentTripList.size - 1].time)) {
 
                     val tripData = TripData(
                         time = tripDto.time,
@@ -90,7 +73,6 @@ class TripJournalImpl(
 
 
                     addDataToDb(tripData)
-//                        Log.e("Trip", "$tripData  | ${DataUtils.timeToString(tripData.time)}")
                 } else {
                     val tripData = TripData(
                         time = tripDto.time,
@@ -98,15 +80,10 @@ class TripJournalImpl(
                     )
 
                     addDataToDb(tripData)
-//                    Log.e("Trip", "$tripData")
                 }
             }
         }
         speedListener?.invoke(currentSpeed.toInt())
-    }
-
-    private fun isCorrectTimeData(currentTime: Long, previousTime: Long): Boolean {
-        return (currentTime - previousTime) >= 1000
     }
 
     private fun addDataToDb(tripData: TripData) {
@@ -125,13 +102,6 @@ class TripJournalImpl(
         val currentTime = tripDto.time
         val previousTime = currentTripList[index - 1].time
 
-        Log.e(
-            "TIME",
-            "$currentTime | $previousTime ||    ${ConvertUtils.timeToString(currentTime)}  | ${
-                ConvertUtils.timeToString(previousTime)
-            }"
-        )
-
         return currentTime - previousTime
     }
 
@@ -145,13 +115,7 @@ class TripJournalImpl(
     private fun calculateDistance(deltaTime: Long, averageSpeed: Double): Double {
         val convertDeltaTime = (deltaTime.toDouble() / 1000) // приходит 999
 
-        val result = ((ConvertUtils.kmPerHourImMeterOnSec(averageSpeed) * convertDeltaTime) / 1000)
-
-        Log.e(
-            "calculateDistance",
-            "$deltaTime | $convertDeltaTime | ${ConvertUtils.kmPerHourImMeterOnSec(averageSpeed)} ||  $result")
-
-        return result
+        return ((ConvertUtils.kmPerHourImMeterOnSec(averageSpeed) * convertDeltaTime) / 1000)
 
     }
 }

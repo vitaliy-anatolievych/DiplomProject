@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.*
 import com.golandcoinc.data.dto.TripDto
 import com.golandcoinc.data.gps.AppLocationManager
+import com.golandcoinc.data.gps.google.GoogleLocation
 import java.io.IOException
 
 class GPSWorker(

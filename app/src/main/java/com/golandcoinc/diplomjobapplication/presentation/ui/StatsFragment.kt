@@ -44,6 +44,10 @@ class StatsFragment : Fragment() {
                 .create()
                 .show()
         }
+
+        binding.btnStatsBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     private fun recyclerViewAdapterSettings() {
