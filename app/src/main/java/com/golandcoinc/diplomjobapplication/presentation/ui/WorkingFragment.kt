@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.golandcoinc.diplomjobapplication.databinding.FragmentWorkingBinding
+import com.golandcoinc.diplomjobapplication.utils.AppPowerManager
 import com.golandcoinc.diplomjobapplication.utils.NavigateUtil
 import com.golandcoinc.diplomjobapplication.utils.SpeedStatus
 import com.golandcoinc.diplomjobapplication.viewmodels.MainViewModel
@@ -49,13 +50,17 @@ class WorkingFragment : Fragment() {
             }
         }
 
+        val powerManager = AppPowerManager(requireContext())
+
         mainViewModel.currentSpeed.observe(viewLifecycleOwner) {
             mainViewModel.listenSpeedStatus(it)
             binding.tvCurrentSpeed.text = it.toString()
+            powerManager.stayWake()
         }
 
         binding.btnFinishTrip.setOnClickListener {
             mainViewModel.stopTrip()
+            powerManager.releaseWake()
             NavigateUtil.navigateTo(parentFragmentManager, MainFragment.newInstance())
         }
     }
