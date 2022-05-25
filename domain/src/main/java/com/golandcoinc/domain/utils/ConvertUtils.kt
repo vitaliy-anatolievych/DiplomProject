@@ -23,10 +23,11 @@ object ConvertUtils {
     }
 
     fun calculateMedian(list: List<Double>): Double {
-        return if (list.size % 2 == 0) {
-            ((list[list.size / 2] + list[list.size / 2 - 1]) / 2)
+        val sorted = list.sortedBy { it }
+        return if (sorted.size % 2 == 0) {
+            ((sorted[sorted.size / 2] + sorted[sorted.size / 2 - 1]) / 2)
         } else {
-            list[list.size / 2]
+            sorted[sorted.size / 2]
         }
     }
 }

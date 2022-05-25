@@ -1,5 +1,6 @@
 package com.golandcoinc.data.commands
 
+import android.util.Log
 import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.FuelDBModel
 import com.golandcoinc.data.db.models.SpeedDBModel
@@ -10,6 +11,7 @@ import com.golandcoinc.domain.commands.AppCommands
 import com.golandcoinc.domain.entities.StatsJournalModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.ceil
 
 class AppCommandsImpl(
     private val tripJournal: TripJournal,
@@ -44,10 +46,10 @@ class AppCommandsImpl(
     }
 
     override suspend fun setSpeed(speed: Int) {
-        db.setRecommendedSpeed(SpeedDBModel(speed = speed.toFloat()))
+        db.setRecommendedSpeed(SpeedDBModel(speed = speed))
     }
 
-    override suspend fun getRecommendedSpeed(): Int? = db.getRecommendedSpeed()?.toInt()
+    override suspend fun getRecommendedSpeed(): Int? = db.getRecommendedSpeed()
 
     override suspend fun getStatsJournal(): StatsJournalModel =
         statsJournal.getStatsJournal()

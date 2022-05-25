@@ -1,6 +1,7 @@
 package com.golandcoinc.data.journals.impl
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.golandcoinc.data.R
 import com.golandcoinc.data.db.dao.AppDao
@@ -51,7 +52,7 @@ class StatsJournalImpl(
     }
 
     private fun saveData(refuelingJournal: List<RefuelingIntervalDBEntity>, fuel: FuelDBModel) {
-        val medianSpeed = calculateMedianSpeed(refuelingJournal)
+        val averageSpeed = calculateAverageSpeed(refuelingJournal)
         val totalDistanceTraveled = calculateTotalDistance(refuelingJournal)
         val fuelConsumption = calculateFuelConsumption(fuel.fuelVolume, totalDistanceTraveled)
 
@@ -67,7 +68,7 @@ class StatsJournalImpl(
 
         db.saveStatsJournal(
             StatsJournalDBEntity(
-                medianSpeedForTravel = medianSpeed,
+                medianSpeedForTravel = averageSpeed,
                 totalDistanceTraveled = totalDistanceTraveled,
                 fuelVolume = fuel.fuelVolume,
                 fuelConsumption = fuelConsumption
@@ -91,7 +92,7 @@ class StatsJournalImpl(
                     }
                 }
 
-                db.setRecommendedSpeed(speed = SpeedDBModel(speed = speed.toFloat()))
+                db.setRecommendedSpeed(speed = SpeedDBModel(speed = speed))
             }
         }
     }
@@ -103,14 +104,16 @@ class StatsJournalImpl(
         } else 0.0
     }
 
-    private fun calculateMedianSpeed(refuelingJournal: List<RefuelingIntervalDBEntity>): Double {
-        return ConvertUtils.calculateMedian(
-            mutableListOf<Double>().apply {
-                refuelingJournal.map {
-                    add(it.medianSpeedForTravel)
-                }
-            }
-        )
+    private fun calculateAverageSpeed(refuelingJournal: List<RefuelingIntervalDBEntity>): Int {
+        var multiplicationSpeed: Double = 0.0
+        var distance: Double = 0.0
+
+        refuelingJournal.forEach {
+            multiplicationSpeed += it.medianSpeedForTravel * it.totalDistanceTraveled
+            distance += it.totalDistanceTraveled
+        }
+
+        return (multiplicationSpeed / distance).toInt()
     }
 
     private fun calculateTotalDistance(refuelingJournal: List<RefuelingIntervalDBEntity>): Double {

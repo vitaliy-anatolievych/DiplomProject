@@ -17,7 +17,7 @@
             android:ellipsize="end"
             android:textAlignment="center"
             android:fontFamily="sans-serif-light"
-            android:text="Медiанна швидкiсть"
+            android:text="Середня швидкість"
             android:textColor="@color/black"
             android:textStyle="bold" />
 

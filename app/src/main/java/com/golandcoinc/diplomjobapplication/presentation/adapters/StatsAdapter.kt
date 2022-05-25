@@ -27,7 +27,7 @@ class StatsAdapter: RecyclerView.Adapter<StatsAdapter.StatsViewHolder>() {
 
     override fun onBindViewHolder(holder: StatsViewHolder, position: Int) {
         with(holder) {
-            tvMedianSpeed.text =  String.format("%.1f",list[position].medianSpeedForTravel)
+            tvMedianSpeed.text =  list[position].medianSpeedForTravel.toString()
             tvTotalDistance.text =  String.format("%.2f",list[position].totalDistanceTraveled)
             tvCountFuel.text =  list[position].fuelVolume.toString()
             tvFuelConsumption.text = String.format("%.2f", list[position].fuelConsumption)

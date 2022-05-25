@@ -42,7 +42,7 @@ interface AppDao {
     fun setRecommendedSpeed(speed: SpeedDBModel)
 
     @Query("SELECT speed FROM SpeedValue WHERE id = 0")
-    fun getRecommendedSpeed(): Float?
+    fun getRecommendedSpeed(): Int?
 
     @Query("DELETE FROM SpeedValue")
     fun clearRecommendedSpeed()

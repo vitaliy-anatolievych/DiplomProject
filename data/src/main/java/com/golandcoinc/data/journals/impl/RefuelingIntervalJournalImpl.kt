@@ -39,7 +39,7 @@ class RefuelingIntervalJournalImpl(
             }
         }
 
-        listOfAverageSpeed.sortBy { it }
+//        listOfAverageSpeed.sortBy { it }
 
         return ConvertUtils.calculateMedian(
             mutableListOf<Double>().apply {

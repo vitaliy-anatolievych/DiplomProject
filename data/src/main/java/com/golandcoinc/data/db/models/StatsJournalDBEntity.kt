@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class StatsJournalDBEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null,
-    val medianSpeedForTravel: Double,
+    val medianSpeedForTravel: Int,
     val totalDistanceTraveled: Double,
     val fuelVolume: Double,
     val fuelConsumption: Double
