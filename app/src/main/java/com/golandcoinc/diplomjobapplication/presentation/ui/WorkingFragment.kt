@@ -25,7 +25,6 @@ class WorkingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWorkingBinding.inflate(layoutInflater, container, false)
-        powerManager = AppPowerManager(inflater.context)
         return binding.root
     }
 
@@ -33,6 +32,8 @@ class WorkingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.listenSpeed()
         mainViewModel.getRecommendedSpeed()
+        powerManager = AppPowerManager(view.context)
+
         powerManager?.stayWake()
 
         mainViewModel.recommendedSpeed.observe(viewLifecycleOwner) {

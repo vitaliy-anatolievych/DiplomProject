@@ -2,7 +2,7 @@ package com.golandcoinc.diplomjobapplication.utils
 
 import android.content.Context
 import android.os.PowerManager
-import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+import android.view.WindowManager
 
 class AppPowerManager(private val context: Context) {
     private var _wakeLock : PowerManager.WakeLock? = null
@@ -12,7 +12,7 @@ class AppPowerManager(private val context: Context) {
     fun stayWake() {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
 
-        _wakeLock = powerManager.newWakeLock(FLAG_KEEP_SCREEN_ON, "myapp:wakeLogTag")
+        _wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "myapp:wakeLogTag")
 
         wakeLock.acquire()
     }
