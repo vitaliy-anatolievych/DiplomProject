@@ -3,9 +3,9 @@ package com.golandcoinc.data.journals.impl
 import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.TripDataDBEntity
 import com.golandcoinc.data.journals.RefuelingIntervalJournal
-import com.golandcoinc.domain.utils.ConvertUtils
 import com.golandcoinc.data.utils.Mapper
 import com.golandcoinc.domain.entities.data.RefuelingIntervalData
+import com.golandcoinc.domain.utils.ConvertUtils
 
 class RefuelingIntervalJournalImpl(
     private val db: AppDao

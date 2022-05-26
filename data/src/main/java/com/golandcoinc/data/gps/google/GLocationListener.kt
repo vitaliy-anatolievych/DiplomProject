@@ -5,9 +5,9 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 
 class GLocationListener: LocationCallback() {
-    var myLocationListener: ((Location) -> Unit)? = null
+    var onLocationChanges: ((Location) -> Unit)? = null
 
     override fun onLocationResult(locationResult: LocationResult) {
-        myLocationListener?.invoke(locationResult.lastLocation)
+        onLocationChanges?.invoke(locationResult.lastLocation)
     }
 }

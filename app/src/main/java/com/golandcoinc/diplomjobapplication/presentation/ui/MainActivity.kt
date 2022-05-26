@@ -4,12 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import com.golandcoinc.data.gps.google.GoogleLocationService
 import com.golandcoinc.diplomjobapplication.R
 import com.golandcoinc.diplomjobapplication.databinding.ActivityMainBinding
 import com.golandcoinc.diplomjobapplication.utils.NavigateUtil
@@ -129,7 +127,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 //                && grantResults[0] == PackageManager.PERMISSION_GRANTED
-        if (requestCode == 1&& grantResults.isNotEmpty()) {
+        if (requestCode == 1 && grantResults.isNotEmpty()) {
             var permissionsGranted = true
             for (i in grantResults.indices) {
                 if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
@@ -140,7 +138,8 @@ class MainActivity : AppCompatActivity() {
             if (permissionsGranted) {
                 showApplication()
             } else {
-                Toast.makeText(this, getString(R.string.permissions_denied), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.permissions_denied), Toast.LENGTH_SHORT)
+                    .show()
                 this.finish()
             }
         }
@@ -149,12 +148,16 @@ class MainActivity : AppCompatActivity() {
     private fun showApplication() {
         mainViewModel.getRecommendedSpeed()
 
-        mainViewModel.recommendedSpeed.observe(this) {
-            if (it != null) {
-                mainViewModel.isHaveNotesTripJournal()
-                NavigateUtil.navigateTo(supportFragmentManager, MainFragment.newInstance())
-            } else {
-                NavigateUtil.navigateTo(supportFragmentManager, WelcomeFragment.newInstance())
+        if (GoogleLocationService.isProgramStillWorking) {
+            NavigateUtil.navigateTo(supportFragmentManager, WorkingFragment.newInstance())
+        } else {
+            mainViewModel.recommendedSpeed.observe(this) { speed ->
+                if (speed != null) {
+                    mainViewModel.isHaveNotesTripJournal()
+                    NavigateUtil.navigateTo(supportFragmentManager, MainFragment.newInstance())
+                } else {
+                    NavigateUtil.navigateTo(supportFragmentManager, WelcomeFragment.newInstance())
+                }
             }
         }
     }

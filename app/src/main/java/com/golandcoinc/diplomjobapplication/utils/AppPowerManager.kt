@@ -2,7 +2,6 @@ package com.golandcoinc.diplomjobapplication.utils
 
 import android.content.Context
 import android.os.PowerManager
-import android.view.WindowManager
 
 class AppPowerManager(private val context: Context) {
     private var _wakeLock : PowerManager.WakeLock? = null

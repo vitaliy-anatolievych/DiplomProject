@@ -1,6 +1,5 @@
 package com.golandcoinc.diplomjobapplication.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
 
 class MainViewModel(
     private val startTripUseCase: StartTrip,
@@ -39,7 +37,9 @@ class MainViewModel(
     val statsJournalModel: LiveData<StatsJournalModel>
         get() = _statsJournal
 
-
+    private var _isProgramWorking = MutableLiveData<Boolean>()
+    val isProgramWorking: LiveData<Boolean>
+        get() = _isProgramWorking
 
     private var _speedStatus = MutableLiveData<SpeedStatus>()
     val speedStatus: LiveData<SpeedStatus>

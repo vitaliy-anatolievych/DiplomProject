@@ -1,7 +1,6 @@
 package com.golandcoinc.data.journals.impl
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.golandcoinc.data.R
 import com.golandcoinc.data.db.dao.AppDao
@@ -10,7 +9,6 @@ import com.golandcoinc.data.db.models.RefuelingIntervalDBEntity
 import com.golandcoinc.data.db.models.SpeedDBModel
 import com.golandcoinc.data.db.models.StatsJournalDBEntity
 import com.golandcoinc.data.journals.StatsJournal
-import com.golandcoinc.domain.utils.ConvertUtils
 import com.golandcoinc.domain.entities.StatsJournalModel
 import com.golandcoinc.domain.entities.data.StatsData
 import kotlinx.coroutines.CoroutineScope
@@ -99,14 +97,13 @@ class StatsJournalImpl(
 
     private fun calculateFuelConsumption(fuel: Double, totalDistanceTraveled: Double): Double {
         return if (totalDistanceTraveled != 0.0) {
-//            (fuel * totalDistanceTraveled) / 100
             (fuel * 100) / totalDistanceTraveled
         } else 0.0
     }
 
     private fun calculateAverageSpeed(refuelingJournal: List<RefuelingIntervalDBEntity>): Int {
-        var multiplicationSpeed: Double = 0.0
-        var distance: Double = 0.0
+        var multiplicationSpeed = 0.0
+        var distance = 0.0
 
         refuelingJournal.forEach {
             multiplicationSpeed += it.medianSpeedForTravel * it.totalDistanceTraveled

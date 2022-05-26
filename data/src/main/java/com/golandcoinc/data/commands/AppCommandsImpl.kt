@@ -1,6 +1,5 @@
 package com.golandcoinc.data.commands
 
-import android.util.Log
 import com.golandcoinc.data.db.dao.AppDao
 import com.golandcoinc.data.db.models.FuelDBModel
 import com.golandcoinc.data.db.models.SpeedDBModel
@@ -11,7 +10,6 @@ import com.golandcoinc.domain.commands.AppCommands
 import com.golandcoinc.domain.entities.StatsJournalModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlin.math.ceil
 
 class AppCommandsImpl(
     private val tripJournal: TripJournal,
